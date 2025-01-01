@@ -27,7 +27,8 @@ document.getElementById("advanceFormDetails").addEventListener("submit", functio
         advanceAmount,
     });
 
-    window.location.href = `https://coderpranjal09.github.io/Apnu-ghar-Management-/billpage.html?${params}`;
+    // Redirect to the bill page with query parameters
+    window.location.href = `https://coderpranjal09.github.io/Apnu-ghar-Management-/billpage.html?${params.toString()}`;
 });
 
 // Handle Checkout form submission
@@ -43,7 +44,7 @@ document.getElementById("checkoutFormDetails").addEventListener("submit", functi
     const extraCharges = document.getElementById("extraCharges").value || 0;
     const advancePaid = document.getElementById("advancePaid").value;
 
-    const totalAmount = parseInt(roomRent) + parseInt(food) + parseInt(extraCharges) - parseInt(advancePaid);
+    const totalAmount = parseFloat(roomRent) + parseFloat(food) + parseFloat(extraCharges) - parseFloat(advancePaid);
 
     const params = new URLSearchParams({
         name,
@@ -57,5 +58,6 @@ document.getElementById("checkoutFormDetails").addEventListener("submit", functi
         totalAmount,
     });
 
-    window.location.href = `billPage.html?${params}`;
+    // Redirect to the bill page with query parameters
+    window.location.href = `https://coderpranjal09.github.io/Apnu-ghar-Management-/billpage.html?${params.toString()}`;
 });
