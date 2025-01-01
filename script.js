@@ -27,7 +27,7 @@ document.getElementById("advanceFormDetails").addEventListener("submit", functio
         advanceAmount,
     });
 
-    window.location.href = `billPage.html?${params}`;
+    window.location.href = `billpage.html?${params}`;
 });
 
 // Handle Checkout form submission
