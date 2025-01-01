@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APNU Ghar Homestay</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to APNU Ghar Homestay</h1>
+        <div class="buttons">
+            <button id="advanceBtn" class="main-btn">Advance Collector</button>
+            <button id="checkoutBtn" class="main-btn">Checkout</button>
+        </div>
+    </header>
+
+    <div id="advanceForm" class="form-container" style="display:none;">
+        <h2>Advance Collector</h2>
+        <form id="advanceFormDetails">
+            <label for="name">Customer Name:</label>
+            <input type="text" id="name" required><br><br>
+            
+            <label for="mobile">Mobile No:</label>
+            <input type="text" id="mobile" required><br><br>
+
+            <label for="checkin">Check-in Date:</label>
+            <input type="date" id="checkin" required><br><br>
+
+            <label for="checkout">Check-out Date:</label>
+            <input type="date" id="checkout" required><br><br>
+
+            <label for="advanceAmount">Advance Payment:</label>
+            <input type="number" id="advanceAmount" required><br><br>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+    <div id="checkoutForm" class="form-container" style="display:none;">
+        <h2>Checkout</h2>
+        <form id="checkoutFormDetails">
+            <label for="checkoutName">Customer Name:</label>
+            <input type="text" id="checkoutName" required><br><br>
+
+            <label for="checkoutMobile">Mobile No:</label>
+            <input type="text" id="checkoutMobile" required><br><br>
+
+            <label for="checkoutCheckin">Check-in Date:</label>
+            <input type="date" id="checkoutCheckin" required><br><br>
+
+            <label for="checkoutCheckout">Check-out Date:</label>
+            <input type="date" id="checkoutCheckout" required><br><br>
+
+            <label for="roomRent">Room Rent (for X days):</label>
+            <input type="number" id="roomRent" required><br><br>
+
+            <label for="food">Food Charges:</label>
+            <input type="number" id="food" required><br><br>
+
+            <label for="extraCharges">Extra Charges:</label>
+            <input type="number" id="extraCharges"><br><br>
+
+            <label for="advancePaid">Advance Paid:</label>
+            <input type="number" id="advancePaid" required><br><br>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>

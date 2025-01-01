@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - APNU Ghar Homestay</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        #bill {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #4CAF50;
+        }
+
+        header p {
+            margin: 3px 0;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .section {
+            margin: 10px 0;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #4CAF50;
+            margin-bottom: 5px;
+        }
+
+        .details {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .details b {
+            color: #4CAF50;
+        }
+
+        .qr-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .qr-container canvas {
+            margin-top: 5px;
+        }
+
+        .stamp {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .stamp img {
+            width: 100px;
+            height: auto;
+        }
+
+        .stamp p {
+            font-size: 12px;
+            color: #777;
+            margin: 3px 0;
+        }
+
+        .signature {
+            font-size: 12px;
+            color: #333;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="bill">
+        <header>
+            <h1>APNU Ghar Homestay</h1>
+            <p>Providing Comfortable Stays with Quality Services</p>
+        </header>
+
+        <div class="section">
+            <h2>Customer Details</h2>
+            <div class="details" id="customerDetails"></div>
+        </div>
+
+        <div class="section">
+            <h2>Payment Summary</h2>
+            <div class="details" id="paymentSummary"></div>
+        </div>
+
+        <div class="qr-container">
+            <h2>UPI QR Code</h2>
+            <canvas id="qrCode" width="200" height="200"></canvas>
+            <p>Scan this QR code to complete your payment</p>
+        </div>
+
+        <div class="stamp">
+            <img src="stampimage.png" alt="Stamp">
+            <p>APNU GHAR HOME-STAY MAKKUMATH </p>
+        </div>
+
+        <div class="signature">
+            <p><b>Authorized Signatory:</b> Pranjal</p>
+            <p id="printDate"></p>
+        </div>
+
+        <button onclick="window.print()">Download Bill</button>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const params = new URLSearchParams(window.location.search);
+    
+        // Prepare customer details for display
+        const customerDetails = `
+            <b>Name:</b> ${params.get("name") || "N/A"}<br>
+            <b>Mobile:</b> ${params.get("mobile") || "N/A"}<br>
+            <b>Check-in Date:</b> ${params.get("checkin") || "N/A"}<br>
+            <b>Check-out Date:</b> ${params.get("checkout") || "N/A"}<br>
+        `;
+    
+        // Handle both advance collector and checkout details
+        const advanceAmount = parseFloat(params.get("advanceAmount") || "0");
+        const roomRent = parseFloat(params.get("roomRent") || "0");
+        const foodCharges = parseFloat(params.get("food") || "0");
+        const extraCharges = parseFloat(params.get("extraCharges") || "0");
+        const advancePaid = parseFloat(params.get("advancePaid") || "0");
+    
+        // If it's the advance collector form
+        if (advanceAmount > 0) {
+            const paymentSummary = `
+                <b>Advance Amount Paid:</b> ₹${advanceAmount.toFixed(2)}<br>
+            `;
+            document.getElementById("paymentSummary").innerHTML = paymentSummary;
+        } else {
+            // If it's checkout, calculate the total and remaining amount
+            const totalAmount = roomRent + foodCharges + extraCharges;
+            const remainingAmount = totalAmount - advancePaid;
+    
+            const paymentSummary = `
+                <b>Room Rent:</b> ₹${roomRent.toFixed(2)}<br>
+                <b>Food Charges:</b> ₹${foodCharges.toFixed(2)}<br>
+                <b>Extra Charges:</b> ₹${extraCharges.toFixed(2)}<br>
+                <b>Advance Paid:</b> ₹${advancePaid.toFixed(2)}<br>
+                <b>Total Amount Due:</b> ₹${totalAmount.toFixed(2)}<br>
+                <b>Remaining Amount:</b> ₹${remainingAmount.toFixed(2)}<br>
+            `;
+            document.getElementById("paymentSummary").innerHTML = paymentSummary;
+        }
+    
+        // Display customer details
+        document.getElementById("customerDetails").innerHTML = customerDetails;
+    
+        // Generate UPI QR code for payment
+        const upiId = "BHARATPE09910680113@yesbankltd"; // Set your UPI ID here
+        const name = "APNU Ghar Homestay Online";
+        
+        // Calculate remaining amount (total due - advance paid)
+        const remainingAmount = roomRent + foodCharges + extraCharges - advancePaid;
+        
+        // Format the remaining amount correctly
+        const formattedAmount = remainingAmount.toFixed(2);
+    
+        // Create the UPI payment URL dynamically
+        const qrCodeValue = `upi://pay?pa=${upiId}&pn=${name}&am=${formattedAmount}&cu=INR`;
+    
+        // Generate QR Code
+        const qr = new QRious({
+            element: document.getElementById("qrCode"),
+            value: qrCodeValue,
+            size: 200,
+        });
+    
+        // Display current date
+        const today = new Date();
+        document.getElementById("printDate").textContent = `Date of Print: ${today.toLocaleDateString()}`;
+    </script>
+    
+</body>
+</html>
