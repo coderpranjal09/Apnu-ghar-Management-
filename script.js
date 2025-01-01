@@ -27,7 +27,7 @@ document.getElementById("advanceFormDetails").addEventListener("submit", functio
         advanceAmount,
     });
 
-    window.location.href = `billpage.html?${params}`;
+    window.location.href = `https://coderpranjal09.github.io/Apnu-ghar-Management-/billpage.html?${params}`;
 });
 
 // Handle Checkout form submission
